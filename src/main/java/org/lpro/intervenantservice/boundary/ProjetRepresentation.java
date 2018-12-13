@@ -64,7 +64,15 @@ public class ProjetRepresentation {
        // modifier l'id du proket pour le projet en parametre
        // sauvegarder le projet
        // traiter le cas où le projet n'existe pas
-    
+        
+        if(!ir.existsById(intervenantId)){
+            throw new NotFound("intervenant inexistant");
+        }
+        return pr.findById(projetId).map(projet -> {
+            projet.setId(projetUpdated.getId());
+            pr.save(projet);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }).orElseThrow( () -> new NotFound("projet inexistant"));
         
         
     }
